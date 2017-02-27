@@ -1,80 +1,50 @@
 package com.wentjiang.springmvclearn.controller;
 
+import com.wentjiang.springmvclearn.web.editor.DateTimeEditor;
+import com.wentjiang.springmvclearn.web.editor.TimestampEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-import java.awt.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyEditor;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by wentj on 2017/2/26.
  */
 public class BaseController {
 
+    protected static final String REDIRECT = "redirect:";
+    protected static final String FORWARD = "forward:";
+
+    private static final String DATE_TIME_FORMATTER = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATE_TIME_FORMATTER_2 = "yyyy-MM-dd HH:mm";
+    private static final String DATE_FORMATTER = "yyyy-MM-dd";
+
+    String redirectTo(String url) {
+        return REDIRECT + url;
+    }
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(Date.class, new PropertyEditor() {
-            @Override
-            public void setValue(Object value) {
 
-            }
+        // date time editor
+        SimpleDateFormat datetimeFormat = new SimpleDateFormat(DATE_TIME_FORMATTER);
+        datetimeFormat.setLenient(false);
+        SimpleDateFormat datetimeFormat2 = new SimpleDateFormat(DATE_TIME_FORMATTER_2);
+        datetimeFormat2.setLenient(false);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMATTER);
+        dateFormat.setLenient(false);
 
-            @Override
-            public Object getValue() {
-                return null;
-            }
+        List<SimpleDateFormat> formatters = new ArrayList<>();
+        formatters.add(datetimeFormat);
+        formatters.add(datetimeFormat2);
+        formatters.add(dateFormat);
 
-            @Override
-            public boolean isPaintable() {
-                return false;
-            }
+        binder.registerCustomEditor(Date.class, new DateTimeEditor(formatters, true));
+        binder.registerCustomEditor(Timestamp.class, new TimestampEditor(formatters, true));
 
-            @Override
-            public void paintValue(Graphics gfx, Rectangle box) {
-
-            }
-
-            @Override
-            public String getJavaInitializationString() {
-                return null;
-            }
-
-            @Override
-            public String getAsText() {
-                return null;
-            }
-
-            @Override
-            public void setAsText(String text) throws IllegalArgumentException {
-
-            }
-
-            @Override
-            public String[] getTags() {
-                return new String[0];
-            }
-
-            @Override
-            public Component getCustomEditor() {
-                return null;
-            }
-
-            @Override
-            public boolean supportsCustomEditor() {
-                return false;
-            }
-
-            @Override
-            public void addPropertyChangeListener(PropertyChangeListener listener) {
-
-            }
-
-            @Override
-            public void removePropertyChangeListener(PropertyChangeListener listener) {
-
-            }
-        });
     }
 }
