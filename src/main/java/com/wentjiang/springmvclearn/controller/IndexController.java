@@ -1,6 +1,8 @@
 package com.wentjiang.springmvclearn.controller;
 
 import com.wentjiang.springmvclearn.annotation.NeedUserLogin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("")
 public class IndexController {
+
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     @NeedUserLogin
     @ResponseBody

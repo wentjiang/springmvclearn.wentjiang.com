@@ -1,0 +1,8 @@
+package com.wentjiang.springmvclearn.factory;
+
+/**
+ * Created by wentj on 2017/2/27.
+ */
+public interface Displacement {
+    void showDisplacement();
+}
